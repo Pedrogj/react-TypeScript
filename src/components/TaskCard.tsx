@@ -1,19 +1,35 @@
-import { Tasks } from "../interfaces/TaskInterface";
+import { Task } from "../interfaces/TaskInterface";
 
 interface Props {
-  task: Tasks;
+  task: Task;
+  deleteATask: (id: number) => void;
 }
 
-export const TaskCard = ({ task }: Props) => {
+export const TaskCard = ({ task, deleteATask }: Props) => {
   return (
-    <div className="card border-primary mb-3" style={{ maxWidth: "20rem" }}>
-      <div className="card-header">{task.title}</div>
+    <div
+      className="mb-3 card border-primary text-dark"
+      style={{ maxWidth: "20rem" }}
+    >
+      <div className="card-header">
+        <h2 style={{ fontSize: "20px" }}>{task.title}</h2>
+      </div>
       <div className="card-body">
-        <h4 className="card-title">Primary card title</h4>
         <p className="card-text">{task.description}</p>
       </div>
-      <div>
-        <button className="btn btn-danger">Delete</button>
+      <div
+        style={{
+          paddingBottom: "20px",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <button
+          className="btn btn-outline-danger btn-sm"
+          onClick={() => task.id && deleteATask(task.id)}
+        >
+          Delete
+        </button>
       </div>
     </div>
   );

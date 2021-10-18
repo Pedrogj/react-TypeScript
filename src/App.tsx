@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { TaskForm } from "./components/TaskForm";
 import { TaskList } from "./components/TaskList";
-import { Tasks } from "./interfaces/TaskInterface";
+import { Task } from "./interfaces/TaskInterface";
 import logo from "./logo.svg";
 
 export function App() {
-  const [task, setTask] = useState<Tasks[]>([
+  const [tasks, setTasks] = useState<Task[]>([
     {
       id: 1,
       title: "Learn React",
@@ -12,6 +13,18 @@ export function App() {
       completed: false,
     },
   ]);
+
+  const getCurrentTimestamp = (): number => new Date().getTime();
+
+  const addANewTask = (task: Task) => {
+    setTasks([
+      ...tasks,
+      { ...task, id: getCurrentTimestamp(), completed: false },
+    ]);
+  };
+
+  const deleteATask = (id: number) =>
+    setTasks(tasks.filter((task) => task.id !== id));
 
   return (
     <>
@@ -26,7 +39,16 @@ export function App() {
       </nav>
       {/* Main */}
       <main className="container p-4">
-        <TaskList tasks={task} />
+        <div className="row">
+          <div className="col-md-4">
+            <TaskForm addANewTask={addANewTask} />
+          </div>
+          <div className="col-md-8">
+            <div className="row">
+              <TaskList tasks={tasks} deleteATask={deleteATask} />
+            </div>
+          </div>
+        </div>
       </main>
     </>
   );
